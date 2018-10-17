@@ -66,6 +66,14 @@ $('body').on('click', 'button.remove', (e) => {
 // hide fish that arent on sale
 $('#show-sale').on('click', () => {
     $('.fish').not(".on-sale").toggle();
+    $('#show-sale').text((i, text) => {
+        return (text === "Show Sale Fish") ? "Show All" : "Show Sale Fish"
+        // if (text === "Show Sale Fish") {
+        //     return "Show All"
+        // } else {
+        //     return "Show Sale Fish"
+        // }
+    })
 })
 
 // Load Fish (getting data from json file)
