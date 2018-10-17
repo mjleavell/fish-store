@@ -6,9 +6,7 @@ const writeFishes = arrayOfFishes => {
   let domString = "";
   arrayOfFishes.forEach(fish => {
     domString += `
-        <div class="${
-          fish.onSale ? "on-sale" : ""
-        } fish card col-md-6 col-md-offset-3">
+        <div class="${fish.onSale ? "on-sale" : ""} fish card col-md-6 col-md-offset-3">
             <div class="thumbnail">
                 <img src="${fish.imageSoure}"
                     alt="" width="40%">
@@ -22,34 +20,55 @@ const writeFishes = arrayOfFishes => {
                     <button class="add btn btn-danger">Add To Basket</button>
                 </div>
             </div>
-        </div>
-        `;
+        </div>`;
   });
   // Write to the available div
   $("#available").append(domString);
   // below would also work
   // $(domString).appendTo("#available");
-  bindEvents();
+  //bindEvents();
 };
 
-const bindEvents = () => {
+//const bindEvents = () => {
   // using .on because buttons added after page load
-  $(".add").on("click", e => {
+  //$(".add").on("click", e => {
     // what is the div that has the fish
-    const fishToMove = $(e.target).closest(".fish");
+    //const fishToMove = $(e.target).closest(".fish");
     // move it to the 'snagged' div
-    $("#snagged").append(fishToMove);
+    //$("#snagged").append(fishToMove);
     // button text => Remove from Basket & change the class (.add becomes .remove)
-    $(e.target).text("Remove from Basket").addClass("remove").removeClass("add");
-  });
-};
+   // $(e.target).text("Remove From Basket").addClass("remove").removeClass("add");
+  //});
+  // Remove Fish
+  //$(".remove").on("click", e => {
+    //const fishToRemove = $(e.target).closest(".fish");
+    //$("#available").append(fishToRemove);
+    //$(e.target).text("Add To Basket").addClass("add").removeClass("remove");
+  //});
+//};
 
 // dynamically listen for events that happen on buttons with a class "add"
-// $('body').on('click', 'button.add', () => {
-// do something cool
-// })
+$('body').on('click', 'button.add', (e) => {
+     // what is the div that has the fish
+     const fishToMove = $(e.target).closest(".fish");
+     // move it to the 'snagged' div
+     $("#snagged").append(fishToMove);
+     // button text => Remove from Basket & change the class (.add becomes .remove)
+    $(e.target).text("Remove From Basket").addClass("remove").removeClass("add");
+})
 
-// Load Fish
+$('body').on('click', 'button.remove', (e) => {
+    const fishToMove = $(e.target).closest(".fish");
+    $("#available").append(fishToMove);
+    $(e.target).text("Add To Basket").addClass("add").removeClass("remove");
+})
+
+// hide fish that arent on sale
+$('#show-sale').on('click', () => {
+    $('.fish').not(".on-sale").toggle();
+})
+
+// Load Fish (getting data from json file)
 $.get("../db/fishes.json")
   .done(data => {
     console.log(data);
