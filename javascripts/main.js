@@ -1,7 +1,18 @@
-// Filter fish that are "on sale"
+// Show discount price
+const discount = .12;
+
+const applySale = () => {
+    $(".on-sale").each((i, fish) => {
+        const fullPrice = $(fish).find('.price');
+        // console.log(parseInt(fullPrice.html()))
+    // have to use parse because fullPrice and basePrice are strings
+        const newPrice  = (parseInt(fullPrice.html()) * (1 - discount)).toFixed(2);
+        // console.log(newPrice)
+        fullPrice.html(newPrice);
+    })
+}
 
 // Add fish to "Basket"
-
 const writeFishes = arrayOfFishes => {
   let domString = "";
   arrayOfFishes.forEach(fish => {
@@ -79,8 +90,9 @@ $('#show-sale').on('click', () => {
 // Load Fish (getting data from json file)
 $.get("../db/fishes.json")
   .done(data => {
-    console.log(data);
+    // console.log(data);
     writeFishes(data.fishes);
+    applySale();
   })
   .fail(error => {
     console.log(error);
